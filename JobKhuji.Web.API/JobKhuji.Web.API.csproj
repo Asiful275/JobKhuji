@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DTOs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JobKhuji.Entities\JobKhuji.Entities.csproj" />
+    <ProjectReference Include="..\JobKhuji.Facade\JobKhuji.Facade.csproj" />
+    <ProjectReference Include="..\JobKhuji.Framework\JobKhuji.Framework.csproj" />
+  </ItemGroup>
+
+</Project>

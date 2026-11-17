@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/API/">
+    <Project Path="JobKhuji.Web.API/JobKhuji.Web.API.csproj" Id="c89128e8-98c6-4d68-b7c3-29454ccb6405" />
+  </Folder>
+  <Folder Name="/Business/">
+    <Project Path="JobKhuji.Facade/JobKhuji.Facade.csproj" Id="9cb868f2-cc42-4d48-b05e-3c702370033a" />
+  </Folder>
+  <Folder Name="/Library/">
+    <Project Path="JobKhuji.DataAccess/JobKhuji.DataAccess.csproj" Id="8a9e8f3e-ed67-4f93-9cfb-7efea4b7daef" />
+    <Project Path="JobKhuji.Entities/JobKhuji.Entities.csproj" Id="8a93e9a9-6550-47e9-8434-b46aface3e8e" />
+    <Project Path="JobKhuji.Framework/JobKhuji.Framework.csproj" Id="2b2a5b00-f301-48f1-ae4b-e2e15b4b5ec5" />
+  </Folder>
+  <Folder Name="/Presentation/">
+    <Project Path="JobKhuji.Web.UI/JobKhuji.Web.UI.csproj" />
+  </Folder>
+</Solution>
