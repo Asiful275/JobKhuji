@@ -15,49 +15,52 @@ namespace JobKhuji.DataAccess
         {
         }
 
-        // Job Seeker Profile
+        // ==============================
+        // DATABASE TABLES
+        // ==============================
+
         public DbSet<JobSeekerProfile> JobSeekerProfiles
             => Set<JobSeekerProfile>();
 
-        // Employer Profile
         public DbSet<EmployerProfile> EmployerProfiles
             => Set<EmployerProfile>();
 
-        // Job Categories
         public DbSet<Category> Categories
             => Set<Category>();
 
-        // Job Posts
         public DbSet<Job> Jobs
             => Set<Job>();
 
-        // Uploaded CVs
         public DbSet<Cv> Cvs
             => Set<Cv>();
 
-        // Job Applications
         public DbSet<JobApplication> Applications
             => Set<JobApplication>();
 
-        // AI Matching Scores
         public DbSet<MatchScore> MatchScores
             => Set<MatchScore>();
 
-        // Saved Jobs
         public DbSet<SavedJob> SavedJobs
             => Set<SavedJob>();
 
-        // Notifications
         public DbSet<Notification> Notifications
             => Set<Notification>();
 
-        // Job Reports
         public DbSet<JobReport> JobReports
             => Set<JobReport>();
+
+        // ==============================
+        // DATABASE RELATIONSHIPS
+        // ==============================
+
         protected override void OnModelCreating(
-    ModelBuilder modelBuilder)
+            ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // --------------------------
+            // USER PROFILES
+            // --------------------------
 
             // One User -> One Job Seeker Profile
             modelBuilder.Entity<JobSeekerProfile>()
@@ -73,6 +76,10 @@ namespace JobKhuji.DataAccess
                 .HasForeignKey<EmployerProfile>(p => p.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // --------------------------
+            // JOB RELATIONSHIPS
+            // --------------------------
+
             // One Employer -> Many Jobs
             modelBuilder.Entity<Job>()
                 .HasOne(j => j.EmployerProfile)
@@ -87,6 +94,22 @@ namespace JobKhuji.DataAccess
                 .HasForeignKey(j => j.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // --------------------------
+            // SALARY PRECISION
+            // --------------------------
+
+            modelBuilder.Entity<Job>()
+                .Property(j => j.MinimumSalary)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Job>()
+                .Property(j => j.MaximumSalary)
+                .HasPrecision(18, 2);
+
+            // --------------------------
+            // CV RELATIONSHIP
+            // --------------------------
+
             // One Job Seeker -> Many CVs
             modelBuilder.Entity<Cv>()
                 .HasOne(c => c.JobSeekerProfile)
@@ -94,7 +117,10 @@ namespace JobKhuji.DataAccess
                 .HasForeignKey(c => c.JobSeekerProfileId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Job Application Relationships
+            // --------------------------
+            // JOB APPLICATIONS
+            // --------------------------
+
             modelBuilder.Entity<JobApplication>()
                 .HasOne(a => a.Job)
                 .WithMany()
@@ -122,7 +148,10 @@ namespace JobKhuji.DataAccess
                 })
                 .IsUnique();
 
-            // AI Matching Relationships
+            // --------------------------
+            // AI MATCH SCORES
+            // --------------------------
+
             modelBuilder.Entity<MatchScore>()
                 .HasOne(m => m.Job)
                 .WithMany()
@@ -135,7 +164,7 @@ namespace JobKhuji.DataAccess
                 .HasForeignKey(m => m.CvId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // One Match Score per Job and CV
+            // One Score per Job and CV Pair
             modelBuilder.Entity<MatchScore>()
                 .HasIndex(m => new
                 {
@@ -144,7 +173,10 @@ namespace JobKhuji.DataAccess
                 })
                 .IsUnique();
 
-            // Saved Job Relationships
+            // --------------------------
+            // SAVED JOBS
+            // --------------------------
+
             modelBuilder.Entity<SavedJob>()
                 .HasOne(s => s.Job)
                 .WithMany()
@@ -157,7 +189,7 @@ namespace JobKhuji.DataAccess
                 .HasForeignKey(s => s.JobSeekerProfileId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Prevent Saving Same Job Twice
+            // Prevent Duplicate Saved Jobs
             modelBuilder.Entity<SavedJob>()
                 .HasIndex(s => new
                 {
@@ -166,14 +198,20 @@ namespace JobKhuji.DataAccess
                 })
                 .IsUnique();
 
-            // User Notifications
+            // --------------------------
+            // NOTIFICATIONS
+            // --------------------------
+
             modelBuilder.Entity<Notification>()
                 .HasOne(n => n.User)
                 .WithMany()
                 .HasForeignKey(n => n.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Job Reports
+            // --------------------------
+            // JOB REPORTS
+            // --------------------------
+
             modelBuilder.Entity<JobReport>()
                 .HasOne(r => r.Job)
                 .WithMany()
@@ -186,11 +224,14 @@ namespace JobKhuji.DataAccess
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Ensure Unique Category Names
+            // --------------------------
+            // CATEGORY CONSTRAINT
+            // --------------------------
+
+            // Prevent Duplicate Category Names
             modelBuilder.Entity<Category>()
                 .HasIndex(c => c.Name)
                 .IsUnique();
         }
     }
-    
 }

@@ -249,9 +249,11 @@ namespace JobKhuji.DataAccess.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<decimal?>("MaximumSalary")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("MinimumSalary")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Requirements")

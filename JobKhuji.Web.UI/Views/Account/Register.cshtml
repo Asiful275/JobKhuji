@@ -1,0 +1,159 @@
+﻿@model JobKhuji.Web.UI.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Create Account";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+
+                    <h2 class="text-center mb-2">
+                        Create Your JobKhuji Account
+                    </h2>
+
+                    <p class="text-center text-muted mb-4">
+                        Join JobKhuji to find jobs or hire talent.
+                    </p>
+
+                    <form asp-controller="Account"
+                          asp-action="Register"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="FullName"
+                                   class="form-label"></label>
+                            <input asp-for="FullName"
+                                   class="form-control"
+                                   placeholder="Enter your full name" />
+                            <span asp-validation-for="FullName"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email"
+                                   class="form-label"></label>
+                            <input asp-for="Email"
+                                   class="form-control"
+                                   placeholder="Enter your email" />
+                            <span asp-validation-for="Email"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Role"
+                                   class="form-label"></label>
+                            <select asp-for="Role"
+                                    class="form-select"
+                                    id="roleSelect">
+                                <option value="">
+                                    Select account type
+                                </option>
+                                <option value="JobSeeker">
+                                    Job Seeker
+                                </option>
+                                <option value="Employer">
+                                    Employer
+                                </option>
+                            </select>
+                            <span asp-validation-for="Role"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <!-- Employer-only field -->
+                        <div class="mb-3"
+                             id="companyNameGroup"
+                             style="display:none;">
+                            <label asp-for="CompanyName"
+                                   class="form-label"></label>
+                            <input asp-for="CompanyName"
+                                   class="form-control"
+                                   placeholder="Enter company name" />
+                            <span asp-validation-for="CompanyName"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password"
+                                   class="form-label"></label>
+                            <input asp-for="Password"
+                                   class="form-control"
+                                   placeholder="Create a password" />
+                            <span asp-validation-for="Password"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="ConfirmPassword"
+                                   class="form-label"></label>
+                            <input asp-for="ConfirmPassword"
+                                   class="form-control"
+                                   placeholder="Confirm your password" />
+                            <span asp-validation-for="ConfirmPassword"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+                            Create Account
+                        </button>
+                    </form>
+
+                    <p class="text-center mt-4 mb-0">
+                        Already have an account?
+                        <a asp-controller="Account"
+                           asp-action="Login">
+                            Login
+                        </a>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const roleSelect =
+                document.getElementById("roleSelect");
+
+            const companyGroup =
+                document.getElementById("companyNameGroup");
+
+            const companyInput =
+                document.getElementById("CompanyName");
+
+            function toggleCompanyField() {
+
+                const isEmployer =
+                    roleSelect.value === "Employer";
+
+                companyGroup.style.display =
+                    isEmployer ? "block" : "none";
+
+                companyInput.required = isEmployer;
+
+                if (!isEmployer) {
+                    companyInput.value = "";
+                }
+            }
+
+            roleSelect.addEventListener(
+                "change", toggleCompanyField);
+
+            toggleCompanyField();
+        });
+    </script>
+}

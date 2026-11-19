@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\JobKhuji.DataAccess\JobKhuji.DataAccess.csproj" />
     <ProjectReference Include="..\JobKhuji.Entities\JobKhuji.Entities.csproj" />
     <ProjectReference Include="..\JobKhuji.Facade\JobKhuji.Facade.csproj" />
     <ProjectReference Include="..\JobKhuji.Framework\JobKhuji.Framework.csproj" />
